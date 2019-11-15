@@ -1,34 +1,71 @@
-import {takeEvery, call} from 'redux-saga/effects';
+import {takeEvery, call,select} from 'redux-saga/effects';
 import {autenticacion, baseDatos} from '../Servicios/Firebase';
 import CONSTANTES from '../../Store/CONSTANTES';
+
+   // JSON:parse es para convertir una cadena a objeto
+    // JSON:stringify  sirve para convertir un objeto a cadena
+    // const {user: {uid, email},} = JSON.parse(registro);
+    //console.log('valores:' + JSON.stringify(values));
+
+    //saga es un middleware, por lo tanto tenemos acceso tanto al store como al dispatch por medio de un select
+
+
 const registroEnFirebase = values =>
   autenticacion
     .createUserWithEmailAndPassword(values.correo, values.password)
     .then(success => JSON.stringify(success));
 
-const registroEnBaseDeDatos = ({uid, email, nombre}) =>
+const registroEnBaseDeDatos = ({uid, email, nombre,fotoURL}) =>
   baseDatos.ref(`usuarios/${uid}`).set({
     email,
     nombre,
+    fotoURL,
   });
 
-function* generadoraRegistro(values) {
+ const registroFotoCloudinary =({imagen})=>{
+
+    const {uri,type} = imagen;
+    const splitName = uri.split('/');
+    const name = [...splitName].pop();
+  
+    const foto ={
+      uri,
+      type:`${type}/jpg`,
+      name,
+    }
+    console.log(foto);
+    const formImagen = new FormData();
+    formImagen.append('upload_preset',CONSTANTES.CLOUDINARY_PRESET);
+    formImagen.append('file',foto);
+
+   
+
+    return fetch(CONSTANTES.CLOUDINARY_NAME,{
+      method: 'POST',
+      body:formImagen,
+    }).then(response=>
+        response.json());
+
+    
+
+  }
+
+
+function* sagaRegistro(values) {
   try {
-    const registro = yield call(registroEnFirebase, values.datos);
 
-    // console.log(`registros: ${registro}`);
-    const {
-      user: {uid, email},
-    } = JSON.parse(registro);
-    // JSON:parse es para convertir una cadena a objeto
-    // JSON:stringify  sirve para convertir un objeto a cadena
-    //console.log('valores:' + JSON.stringify(values));
-    const {
-      datos: {nombre},
-    } = values;
+    const imagen =yield select((state)=>state.reducerImagenSignUp);
+    //console.log(imagen);
+    const urlFoto = yield call (registroFotoCloudinary, imagen);
+    const fotoURL = urlFoto.secure_url;
+    const registro= yield call(registroEnFirebase,values.datos);
+    const {user: {uid, email},} = JSON.parse(registro);
+    const { datos: {nombre}, } = values;
 
-    // uid, email, nombre
-    yield call(registroEnBaseDeDatos, {uid, email, nombre});
+    yield call(registroEnBaseDeDatos,{
+        uid,email,nombre,fotoURL,
+    });
+    
   } catch (error) {
     console.log(error);
   }
@@ -48,7 +85,7 @@ function* sagaLogin(values) {
 }
 
 export default function* funcionPrimaria() {
-  yield takeEvery(CONSTANTES.REGISTRO, generadoraRegistro);
+  yield takeEvery(CONSTANTES.REGISTRO, sagaRegistro);
   yield takeEvery(CONSTANTES.LOGIN, sagaLogin);
   // yield ES6
   console.log('Desde nuestra función generadora');

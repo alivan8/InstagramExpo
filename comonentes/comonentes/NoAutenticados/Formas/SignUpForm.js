@@ -29,8 +29,25 @@ const fieldNombre = props => {
   );
 };
 
-const validate = values => {
+const fieldImagen = props => (
+  <View>
+      <View>
+      {props.meta.touched
+      && <Text style={styles.errors}>{props.meta.error}</Text>}
+    </View>
+  </View>
+);
+
+
+
+
+const validate = (values,props) => {
+  console.log('ejecutando validaciones');
   const errors = {};
+
+  if(!props.imagen){
+    errors.imagen ='imagen es requerida'
+  }
 
   if (!values.nombre) {
     errors.nombre = 'requerido';
@@ -61,7 +78,8 @@ const validate = values => {
 
 const SignUpForm = props => {
   return (
-    <View>
+    <View style={styles.container}>
+      <Field name="imagen" component={fieldImagen} />
       <Field name="nombre" component={fieldNombre} ph="nombre" />
       <Field name="correo" component={fieldNombre} ph="correo" />
       <Field name="password" component={fieldNombre} ph="******" />
@@ -73,8 +91,13 @@ const SignUpForm = props => {
 };
 
 const styles = StyleSheet.create({
+  container:{
+    flex:3,
+ 
+  },
   inputText: {
     marginBottom: 10,
+    paddingTop:10
   },
   linea: {
     backgroundColor: '#DCDCDC',

@@ -26,11 +26,28 @@ const reducerSesion = (state = null, action) => {
   }
 };
 
+// En el reducer guardaremos  la informacion
+
+const reducerImagenSignUp = (state ={imagen:null},action) =>{
+
+    switch (action.type) {
+      case CONSTANTES.CARGAR_IMAGEN_SIGNUP:
+          return {imagen:action.imagen};
+      case CONSTANTES.LIMPIAR_IMAGEN_SIGNUP:
+              return {imagen:null};
+      default:
+        return state;
+    }
+
+}
+
+
 //funciones generadoras
 
 const sagaMiddleware = createSagaMiddleware();
 //reducerSesion y esas cosas representan nuestrao state
 const reducers = combineReducers({
+  reducerImagenSignUp,
   reducerSesion,
   reducerPruebas,
   form,
