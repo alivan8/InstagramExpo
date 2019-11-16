@@ -84,25 +84,25 @@ function* sagaLogin(values) {
   }
 }
 
-const escribirFirebase =({width,height,secure_url})=>baseDatos.ref('publicaciones/').push({
-    width,height,secure_url
+const escribirFirebase =({width,height,secure_url},texto = '') => baseDatos.ref('publicaciones/').push({
+  width,height,secure_url,texto,
 }).then(response=>response);
 
 function* sagaSubirPublicacion(values){
-    try {
-      const imagen = yield select(state =>state.reducerImagenPublicacion);
-      const resultadoImagen = yield call(registroFotoCloudinary,imagen );
-      console.log(resultadoImagen);
-      const {width,height,secure_url} = resultadoImagen;
-      
-      const parametrosImagen = {width,height,secure_url};
-      const escribirEnFirebase= yield call(escribirFirebase,parametrosImagen);
-      console.log(escribirEnFirebase);
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const imagen = yield select(state =>state.reducerImagenPublicacion);
+    const resultadoImagen = yield call(registroFotoCloudinary,imagen );
+    console.log(resultadoImagen);
+    const {width,height,secure_url} = resultadoImagen;
+    const {values:{texto},}= values;
+    console.log(texto);
+    const parametrosImagen = {width,height,secure_url};
+    const escribirEnFirebase= yield call(escribirFirebase,parametrosImagen,texto);
+     
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 
 export default function* funcionPrimaria() {
   yield takeEvery(CONSTANTES.REGISTRO, sagaRegistro);
