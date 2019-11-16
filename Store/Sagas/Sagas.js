@@ -88,6 +88,10 @@ const escribirFirebase =({width,height,secure_url,uid},texto = '') => baseDatos.
   width,height,secure_url,texto,uid
 }).then(response=>response);
 
+const escribirAutorPublicacion =({uid,key})=> baseDatos.ref(`autor-publicaciones/${uid}`)
+.update({[key] :true}) 
+.then(response => response);
+
 function* sagaSubirPublicacion(values){
   try {
     const imagen = yield select(state =>state.reducerImagenPublicacion);
@@ -102,8 +106,11 @@ function* sagaSubirPublicacion(values){
     //console.log(texto);
     const parametrosImagen = {width,height,secure_url,uid};
     const escribirEnFirebase= yield call(escribirFirebase,parametrosImagen,texto);
-    console.log(escribirEnFirebase.key);
-     
+    //console.log(escribirEnFirebase.key);
+    const {key} = escribirEnFirebase;
+    const parametrosAutorPublicacion = {uid,key};
+    const resultadoEscribirAutorPublicacion = yield call(escribirAutorPublicacion,parametrosAutorPublicacion);
+    console.log(resultadoEscribirAutorPublicacion);
   } catch (error) {
     console.log(error);
   }
