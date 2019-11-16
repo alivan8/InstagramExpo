@@ -76,28 +76,33 @@ const loginInFirebase = ({correo, password}) =>
 
 function* sagaLogin(values) {
   try {
-    console.log(JSON.stringify(values));
+    //console.log(JSON.stringify(values));
     const resultado = yield call(loginInFirebase, values.datos);
-    console.log('resultado saga login:' + JSON.stringify(resultado));
+    //console.log('resultado saga login:' + JSON.stringify(resultado));
   } catch (error) {
     console.log(error);
   }
 }
 
-const escribirFirebase =({width,height,secure_url},texto = '') => baseDatos.ref('publicaciones/').push({
-  width,height,secure_url,texto,
+const escribirFirebase =({width,height,secure_url,uid},texto = '') => baseDatos.ref('publicaciones/').push({
+  width,height,secure_url,texto,uid
 }).then(response=>response);
 
 function* sagaSubirPublicacion(values){
   try {
     const imagen = yield select(state =>state.reducerImagenPublicacion);
+    const usuario  = yield select(state => state.reducerSesion);
+   // console.log('usuario'+JSON.stringify(usuario));
+    const { uid } = usuario;
+    //console.log(uid);
     const resultadoImagen = yield call(registroFotoCloudinary,imagen );
-    console.log(resultadoImagen);
+    //console.log(resultadoImagen);
     const {width,height,secure_url} = resultadoImagen;
     const {values:{texto},}= values;
-    console.log(texto);
-    const parametrosImagen = {width,height,secure_url};
+    //console.log(texto);
+    const parametrosImagen = {width,height,secure_url,uid};
     const escribirEnFirebase= yield call(escribirFirebase,parametrosImagen,texto);
+    console.log(escribirEnFirebase.key);
      
   } catch (error) {
     console.log(error);

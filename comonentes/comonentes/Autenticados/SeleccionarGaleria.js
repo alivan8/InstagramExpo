@@ -3,7 +3,7 @@ import { View, Text ,StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
 import { blur } from 'redux-form';
 import SeleccionarImagen from '../SeleccionarImagen';
-import {  actionCargarImagenPublicacion,actionSubirPublicacion } from '../../../Store/ACCIONES';
+import {  actionCargarImagenPublicacion,actionSubirPublicacion, actionLimpiarImagenPublicacion } from '../../../Store/ACCIONES';
 import SeleccionarGaleriaForm from './SeleccionarGaleriaForm';
 
  class SeleccionarGaleria extends Component {
@@ -11,6 +11,10 @@ import SeleccionarGaleriaForm from './SeleccionarGaleriaForm';
     super(props);
     this.state = {
     };
+  }
+//antes de que el componente sea destruido,cancelar lladas a la red, compoenntes que hayan sido llamados
+  componentWillMount(){
+      this.props.limpiarImagen();
   }
 
   render() {
@@ -58,8 +62,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(blur('SeleccionarGaleriaForm', 'imagen', Date.now()));
   },
   subirPublicacion:(values)=>{
-    dispatch(actionSubirPublicacion(values));
-    
+    dispatch(actionSubirPublicacion(values)); 
+  },
+  limpiarImagen :() =>{
+    dispatch(actionLimpiarImagenPublicacion());
   },
 });
 
