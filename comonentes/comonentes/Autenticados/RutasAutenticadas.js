@@ -6,6 +6,7 @@ import Add from './Add';
 import Search from './Search';
 import {createAppContainer} from 'react-navigation';
 import {StackSearch} from './StackSearch';
+import { StackAdd } from './StackAdd';
 //const Home = createAppContainer(StackHome);
 
 //const Search = createAppContainer(StackSearch);
@@ -18,7 +19,7 @@ export const RutasAutenticadas = createBottomTabNavigator({
     screen: StackSearch,
   },
   Add: {
-    screen: Add,
+    screen: StackAdd,
   },
   Follow: {
     screen: StackFollow,
