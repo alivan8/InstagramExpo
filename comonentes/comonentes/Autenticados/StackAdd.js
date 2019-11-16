@@ -10,6 +10,6 @@ export const StackAdd = createStackNavigator({
     
     },
     seleccion:{
-      screen:SeleccionarGaleria,  
+      screen: SeleccionarGaleria,  
     },
 })

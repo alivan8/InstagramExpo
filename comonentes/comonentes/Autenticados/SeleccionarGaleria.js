@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text ,StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
+import { blur } from 'redux-form';
 import SeleccionarImagen from '../SeleccionarImagen';
+import {  actionCargarImagenPublicacion } from '../../../Store/ACCIONES';
+//import SeleccionarGaleriaForm from './SeleccionarGaleriaForm';
 
  class SeleccionarGaleria extends Component {
   constructor(props) {

@@ -5,19 +5,20 @@ export default class Add extends Component {
  
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
        <Button
           title="Seleccionar galería"
           onPress={() => {
-            navigation.navigate('Seleccion');
+            navigation.navigate('seleccion');
           }}
         />
         <Text>Add</Text>
         <Button
           title="Tomar Foto"
           onPress={() => {
-            navigation.navigate('Seleccion');
+            navigation.navigate('seleccion');
           }}
         />
       </View>
