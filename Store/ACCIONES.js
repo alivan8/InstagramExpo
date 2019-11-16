@@ -43,3 +43,6 @@ export const actionSubirPublicacion=(values)=>({
   values,
 });
 
+export const actionDescargarPublicaciones=()=>({
+    type:CONSTANTES.DESCARGAR_PUBLICACIONES,
+})

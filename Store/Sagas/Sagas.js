@@ -116,10 +116,25 @@ function* sagaSubirPublicacion(values){
   }
 }
 
+const descargarPublicaciones =()=>baseDatos
+.ref('publicaciones/')
+.once('value')
+.then(response => response.val());
+
+function* sagaDescargarPublicaciones(){
+  try {
+     const publicaciones = yield call(descargarPublicaciones);
+     console.log('publicaciones:'+JSON.stringify(publicaciones));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default function* funcionPrimaria() {
   yield takeEvery(CONSTANTES.REGISTRO, sagaRegistro);
   yield takeEvery(CONSTANTES.LOGIN, sagaLogin);
-  yield takeEvery(CONSTANTES.SUBIR_PUBLICACION,sagaSubirPublicacion);
+  yield takeEvery(CONSTANTES.SUBIR_PUBLICACION,sagaSubirPublicacion); 
+  yield takeEvery(CONSTANTES.DESCARGAR_PUBLICACIONES,sagaDescargarPublicaciones);
   // yield ES6
   console.log('Desde nuestra función generadora');
 }

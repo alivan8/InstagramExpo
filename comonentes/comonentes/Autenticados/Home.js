@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
+import {connect} from 'react-redux';
+import {actionDescargarPublicaciones} from '../../../Store/ACCIONES';
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+class Home extends Component {
+  
+  componentDidMount(){
+    this.props.descargarPublicaciones(); 
   }
+
+
 
   render() {
     const {navigation} = this.props;
@@ -36,3 +40,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#2c3e58',
   },
 });
+
+const mapStateToProps=(state)=>{
+  return {
+    prop:state.prop,
+  }
+};
+
+const mapDispatchToProps=(dispatch)=> {
+  return {
+    descargarPublicaciones:()=>{
+      dispatch(actionDescargarPublicaciones())
+    }
+  }
+};
+
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
