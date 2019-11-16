@@ -21,6 +21,7 @@ const SeleccionarImagen = (props) => {
      props.cargar(result);
     }
   };
+  const radius = { borderRadius: props.radius ? 0 : 80 };
 
   return (
     <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center',marginTop:35 }}>
@@ -28,10 +29,10 @@ const SeleccionarImagen = (props) => {
       {
           props.imagen ? (
           <Image source={{uri:props.imagen.uri} }
-                  style={{width:160,height:160,borderRadius:80}}
+                  style={{width:160,height:160,...radius}}
           />):(
           <Image source={require('../../assets/oveja.jpg')} 
-                  style={{width:160,height:160,borderRadius:80}}/>)
+                  style={{width:160,height:160,...radius}}/>)
       }
       </TouchableOpacity>
     </View>
