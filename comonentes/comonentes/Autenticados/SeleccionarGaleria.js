@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { blur } from 'redux-form';
 import SeleccionarImagen from '../SeleccionarImagen';
 import {  actionCargarImagenPublicacion } from '../../../Store/ACCIONES';
-//import SeleccionarGaleriaForm from './SeleccionarGaleriaForm';
+import SeleccionarGaleriaForm from './SeleccionarGaleriaForm';
 
  class SeleccionarGaleria extends Component {
   constructor(props) {
@@ -24,12 +24,12 @@ import {  actionCargarImagenPublicacion } from '../../../Store/ACCIONES';
         />
       </View>
       <View style={styles.texto}>
-        {/**<SeleccionarGaleriaForm
+        <SeleccionarGaleriaForm
           imagen={this.props.imagen.imagen}
           registro={(values) => {
             console.log(values);
           }}
-        /> */}
+        /> 
       </View>
     </View>
     );
@@ -55,7 +55,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   cargarImagen: (imagen) => {
     dispatch(actionCargarImagenPublicacion(imagen));
-   // dispatch(blur('SeleccionarGaleriaForm', 'imagen', Date.now()));
+    dispatch(blur('SeleccionarGaleriaForm', 'imagen', Date.now()));
   },
 });
 
