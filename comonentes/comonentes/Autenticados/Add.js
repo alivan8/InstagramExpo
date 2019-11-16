@@ -1,16 +1,25 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text,Button} from 'react-native';
 
 export default class Add extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+ 
 
   render() {
     return (
       <View style={styles.container}>
-        <Text> Add </Text>
+       <Button
+          title="Seleccionar galería"
+          onPress={() => {
+            navigation.navigate('Seleccion');
+          }}
+        />
+        <Text>Add</Text>
+        <Button
+          title="Tomar Foto"
+          onPress={() => {
+            navigation.navigate('Seleccion');
+          }}
+        />
       </View>
     );
   }
@@ -20,6 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2c3e58',
+    backgroundColor: '#f9f9f9',
   },
 });
