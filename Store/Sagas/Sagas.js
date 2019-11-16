@@ -83,10 +83,23 @@ function* sagaLogin(values) {
     console.log(error);
   }
 }
+function* sagaSubirPublicacion(values){
+    try {
+      const imagen = yield select(state =>state.reducerImagenPublicacion);
+      console.log(imagen);
+      console.log('valores saga subirPublicacion'+JSON.stringify(values));
+      const resultadoImagen = yield call(registroFotoCloudinary,imagen );
+      console.log(resultadoImagen);
+    } catch (error) {
+      console.log(error);
+    }
+}
+
 
 export default function* funcionPrimaria() {
   yield takeEvery(CONSTANTES.REGISTRO, sagaRegistro);
   yield takeEvery(CONSTANTES.LOGIN, sagaLogin);
+  yield takeEvery(CONSTANTES.SUBIR_PUBLICACION,sagaSubirPublicacion);
   // yield ES6
   console.log('Desde nuestra función generadora');
 }
