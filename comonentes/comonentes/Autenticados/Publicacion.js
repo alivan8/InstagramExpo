@@ -12,17 +12,20 @@ export default class Publicacion extends Component {
     const {width} = Dimensions.get('window');
           const factor = item.width /width;
           const height= item.height/factor;
-          
+
     return (
       <View >
         <View>
-          <Text>{item.uidd}</Text>
+          <Text>{item.uid}</Text>
         </View>
-          
           <Image
             source={{uri:item.secure_url}}
             style={{width:width,height}}
-          />
+           />
+        <View>
+          <Text>like</Text>
+          <Text>comentarios</Text>
+        </View>
         {/* <Text> Publicacion </Text>
         <Button
           title="Autor"

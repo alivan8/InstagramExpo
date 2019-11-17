@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Button,FlatList,Image, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {actionDescargarPublicaciones} from '../../../Store/ACCIONES';
+import Publicacion from './Publicacion';
 
 class Home extends Component {
   
@@ -19,18 +20,8 @@ class Home extends Component {
     return (
       <FlatList 
         data={this.props.publicaciones}
-        renderItem={({ item })=>{
-          const {width} = Dimensions.get('window');
-          const factor = item.width /width;
-          const height= item.height/factor;
-        //  console.log(width);
-          return <Image
-            source={{uri:item.secure_url}}
-            style={{width:width,height}}
-          />
-     
-        }}
-
+        renderItem={({ item })=> <Publicacion item={item}/>}
+        ItemSeparatorComponent={()=> <View style={styles.separador}/>}
       />
       // <View style={styles.container}>
       //   <Text> Home </Text>
@@ -57,6 +48,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2c3e58',
   },
+  separador :{
+    borderWidth:1,
+    borderColor:'#C0C0C0',
+  },  
 });
 
 const mapStateToProps=(state)=>{
