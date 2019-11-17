@@ -1,4 +1,4 @@
-import {takeEvery, call,select,put} from 'redux-saga/effects';
+import {takeEvery, call,select,put,all} from 'redux-saga/effects';
 import {autenticacion, baseDatos} from '../Servicios/Firebase';
 import CONSTANTES from '../../Store/CONSTANTES';
 import { actionAgregarAplicacionesStore } from '../ACCIONES';
@@ -134,11 +134,19 @@ const descargarPublicaciones =()=>baseDatos
       }
     ) ;
 
+    const descargarAutor =(uid)=>
+    baseDatos
+    .ref(`usuarios/${uid}`)
+    .once('value')
+    .then((snapshot)=>snapshot.val())
+
 function* sagaDescargarPublicaciones(){
   try {
      const publicaciones = yield call(descargarPublicaciones);
-    // console.log('publicaciones:'+JSON.stringify(publicaciones));
+     const autores = yield all(publicaciones.map(()=>call(descargarAutor,publicaciones.uid))) ;
+     console.log(autores);
      yield put(actionAgregarAplicacionesStore(publicaciones));
+
   } catch (error) {
     console.log(error);
   }
