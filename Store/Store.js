@@ -63,9 +63,18 @@ const reducerPublicacionesDescargadas = (state=[],action) =>{
     }
 }
 
+const reducerAutoresDescargadas = (state=[],action) =>{
+  switch (action.type) {
+    case CONSTANTES.AGREGAR_AUTORES_STORE:
+      return [...state,...action.autores ];
+    default:
+      return state;
+  }
+}
 const sagaMiddleware = createSagaMiddleware();
 //reducerSesion y esas cosas representan nuestrao state
 const reducers = combineReducers({
+  reducerAutoresDescargadas,
   reducerPublicacionesDescargadas,
   reducerImagenPublicacion,
   reducerImagenSignUp,

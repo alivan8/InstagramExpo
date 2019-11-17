@@ -16,11 +16,12 @@ class Home extends Component {
   render() {
 
     //console.log(this.props.publicaciones);
-    const {navigation} = this.props;
+    const {navigation,autores} = this.props;
+   // console.log('autores:'+ autores);
     return (
       <FlatList 
         data={this.props.publicaciones}
-        renderItem={({ item })=> <Publicacion item={item}/>}
+        renderItem={({ item,index })=> <Publicacion item={item} autor={autores[index]}/>}
         ItemSeparatorComponent={()=> <View style={styles.separador}/>}
       />
       // <View style={styles.container}>
@@ -57,6 +58,8 @@ const styles = StyleSheet.create({
 const mapStateToProps=(state)=>{
   return {
     publicaciones:state.reducerPublicacionesDescargadas ,
+    autores:state.reducerAutoresDescargadas,
+    
   }
 };
 

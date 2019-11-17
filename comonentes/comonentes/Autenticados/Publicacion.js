@@ -8,15 +8,20 @@ export default class Publicacion extends Component {
   }
 
   render() {
-    const {navigation,item} = this.props;
+    //console.log('autor PUblicacion:'+ JSON.stringify(this.props.autor));
+    const {navigation,item,autor} = this.props;
     const {width} = Dimensions.get('window');
           const factor = item.width /width;
           const height= item.height/factor;
 
     return (
       <View >
-        <View>
-          <Text>{item.uid}</Text>
+        <View style={styles.header}>
+          <Image
+            source={{uri:autor.fotoURL}}
+            style={{width:45,height:45,borderRadius:24}}
+            />
+          <Text>{autor.nombre}</Text>
         </View>
           <Image
             source={{uri:item.secure_url}}
@@ -51,4 +56,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2c3e58',
   },
+  header:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingHorizontal:16,
+    marginBottom:16,
+  }
 });
