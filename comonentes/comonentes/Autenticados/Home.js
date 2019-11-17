@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View, Text, Button,FlatList,Image, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import {actionDescargarPublicaciones} from '../../../Store/ACCIONES';
 
@@ -11,24 +11,42 @@ class Home extends Component {
 
 
 
+
   render() {
+
+    //console.log(this.props.publicaciones);
     const {navigation} = this.props;
     return (
-      <View style={styles.container}>
-        <Text> Home </Text>
-        <Button
-          title="Autor"
-          onPress={() => {
-            navigation.navigate('Autor');
-          }}
-        />
-        <Button
-          title="Comentarios"
-          onPress={() => {
-            navigation.navigate('Comentarios');
-          }}
-        />
-      </View>
+      <FlatList 
+        data={this.props.publicaciones}
+        renderItem={({ item })=>{
+          const {width} = Dimensions.get('window');
+          const factor = item.width /width;
+          const height= item.height/factor;
+        //  console.log(width);
+          return <Image
+            source={{uri:item.secure_url}}
+            style={{width:width,height}}
+          />
+     
+        }}
+
+      />
+      // <View style={styles.container}>
+      //   <Text> Home </Text>
+      //   <Button
+      //     title="Autor"
+      //     onPress={() => {
+      //       navigation.navigate('Autor');
+      //     }}
+      //   />
+      //   <Button
+      //     title="Comentarios"
+      //     onPress={() => {
+      //       navigation.navigate('Comentarios');
+      //     }}
+      //   />
+      // </View>
     );
   }
 }
@@ -43,7 +61,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps=(state)=>{
   return {
-    prop:state.prop,
+    publicaciones:state.reducerPublicacionesDescargadas ,
   }
 };
 

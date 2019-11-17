@@ -54,9 +54,19 @@ const reducerImagenPublicacion = (state = { imagen: null }, action) => {
 
 //funciones generadoras
 
+const reducerPublicacionesDescargadas = (state=[],action) =>{
+    switch (action.type) {
+      case CONSTANTES.AGREGAR_PUBLICACIONES_STORE:
+        return [...state,...action.publicaciones];
+      default:
+        return state;
+    }
+}
+
 const sagaMiddleware = createSagaMiddleware();
 //reducerSesion y esas cosas representan nuestrao state
 const reducers = combineReducers({
+  reducerPublicacionesDescargadas,
   reducerImagenPublicacion,
   reducerImagenSignUp,
   reducerSesion,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View, Text, Button,Dimensions,Image} from 'react-native';
 
 export default class Publicacion extends Component {
   constructor(props) {
@@ -8,10 +8,22 @@ export default class Publicacion extends Component {
   }
 
   render() {
-    const {navigation} = this.props;
+    const {navigation,item} = this.props;
+    const {width} = Dimensions.get('window');
+          const factor = item.width /width;
+          const height= item.height/factor;
+          
     return (
-      <View style={styles.container}>
-        <Text> Publicacion </Text>
+      <View >
+        <View>
+          <Text>{item.uidd}</Text>
+        </View>
+          
+          <Image
+            source={{uri:item.secure_url}}
+            style={{width:width,height}}
+          />
+        {/* <Text> Publicacion </Text>
         <Button
           title="Autor"
           onPress={() => {
@@ -23,7 +35,7 @@ export default class Publicacion extends Component {
           onPress={() => {
             navigation.navigate('Comentarios');
           }}
-        />
+        /> */}
       </View>
     );
   }

@@ -1,6 +1,7 @@
-import {takeEvery, call,select} from 'redux-saga/effects';
+import {takeEvery, call,select,put} from 'redux-saga/effects';
 import {autenticacion, baseDatos} from '../Servicios/Firebase';
 import CONSTANTES from '../../Store/CONSTANTES';
+import { actionAgregarAplicacionesStore } from '../ACCIONES';
 
    // JSON:parse es para convertir una cadena a objeto
     // JSON:stringify  sirve para convertir un objeto a cadena
@@ -110,7 +111,7 @@ function* sagaSubirPublicacion(values){
     const {key} = escribirEnFirebase;
     const parametrosAutorPublicacion = {uid,key};
     const resultadoEscribirAutorPublicacion = yield call(escribirAutorPublicacion,parametrosAutorPublicacion);
-    console.log(resultadoEscribirAutorPublicacion);
+  //  console.log(resultadoEscribirAutorPublicacion);
   } catch (error) {
     console.log(error);
   }
@@ -119,12 +120,25 @@ function* sagaSubirPublicacion(values){
 const descargarPublicaciones =()=>baseDatos
 .ref('publicaciones/')
 .once('value')
-.then(response => response.val());
+.then(snapshot =>  {
+      let publicaciones=[];
+      console.log('publicacion inicio:'+publicaciones);
+        snapshot.forEach((childSnapshot)=>{
+                  const {key}=childSnapshot;
+                  const publicacion = childSnapshot.val();
+                  publicacion.key = key;
+                  publicaciones.push(publicacion);
+        });
+        return publicaciones;
+        
+      }
+    ) ;
 
 function* sagaDescargarPublicaciones(){
   try {
      const publicaciones = yield call(descargarPublicaciones);
-     console.log('publicaciones:'+JSON.stringify(publicaciones));
+    // console.log('publicaciones:'+JSON.stringify(publicaciones));
+     yield put(actionAgregarAplicacionesStore(publicaciones));
   } catch (error) {
     console.log(error);
   }
