@@ -1,45 +1,39 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, Button,Dimensions,Image} from 'react-native';
+// import liraries
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Button, Dimensions, Image } from 'react-native';
 
-export default class Publicacion extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+// create a component
+class Publicacion extends Component {
   render() {
-    //console.log('autor PUblicacion:'+ JSON.stringify(this.props.autor));
-    const {navigation,item,autor} = this.props;
-    const {width} = Dimensions.get('window');
-          const factor = item.width /width;
-          const height= item.height/factor;
-
+    console.log(this.props.autor);
+    const { navigation, item, autor } = this.props;
+    const { width } = Dimensions.get('window');
+    console.log(width);
+    const factor = item.width / width;
+    const height = item.height / factor;
     return (
-      <View >
+      <View>
         <View style={styles.header}>
           <Image
-            source={{uri:autor.fotoURL}}
-            style={{width:45,height:45,borderRadius:24}}
-            />
+            source={{ uri: autor.fotoURL }}
+            style={{ width: 48, height: 48, borderRadius: 24 }}
+          />
           <Text>{autor.nombre}</Text>
         </View>
-          <Image
-            source={{uri:item.secure_url}}
-            style={{width:width,height}}
-           />
+        <Image source={{ uri: item.secure_url }} style={{ width, height }} />
         <View>
-          <Text>like</Text>
-          <Text>comentarios</Text>
+          <Text>Likes</Text>
+          <Text>Comentarios</Text>
         </View>
-        {/* <Text> Publicacion </Text>
+        {/* <Text>Publicacion</Text>
         <Button
           title="Autor"
           onPress={() => {
-            navigation.navigate('Comentarios');
+            navigation.navigate('Autor');
           }}
         />
         <Button
-          title="comentarios"
+          title="Comentarios"
           onPress={() => {
             navigation.navigate('Comentarios');
           }}
@@ -49,17 +43,21 @@ export default class Publicacion extends Component {
   }
 }
 
+// define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2c3e58',
+    backgroundColor: '#2c3e50',
   },
-  header:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    paddingHorizontal:16,
-    marginBottom:16,
-  }
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
 });
+
+// make this component available to the app
+export default Publicacion;
